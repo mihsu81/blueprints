@@ -1,7 +1,8 @@
 blueprint:
   name: zigbee2mqtt IKEA 5-button remote
   description: "This blueprint is for the IKEA round, 5-button remote when used with zigbee2mqtt.
-  It is for genral use so all buttons can be connected to any action of your choice"
+  It is for genral use so all buttons can be connected to any action of your choice.
+  Based on https://community.home-assistant.io/t/zigbee2mqtt-ikea-5-button-remote-general-use/263885 by finch."
   domain: automation
   input:
     remote:
@@ -11,9 +12,15 @@ blueprint:
         entity:
           integration: mqtt
           domain: sensor
-    button_on_off:
-      name: On off button press
-      description: Action to run when toggle on/off-button
+    button_on_off_short:
+      name: On off button - short press
+      description: Action to run when SHORT press on/off-button
+      default: []
+      selector:
+        action: {}
+    button_on_off_long:
+      name: On off button - long press
+      description: Action to run when LONG press on/off-button
       default: []
       selector:
         action: {}
@@ -77,7 +84,10 @@ action:
   - choose:
       - conditions:
           - "{{ command == 'toggle' }}"
-        sequence: !input "button_on_off"
+        sequence: !input "button_on_off_short"
+      - conditions:
+          - "{{ command == 'toggle_hold' }}"
+        sequence: !input "button_on_off_long"
       - conditions:
           - "{{ command == 'brightness_up_click' }}"
         sequence: !input "button_brightness_up_short"
