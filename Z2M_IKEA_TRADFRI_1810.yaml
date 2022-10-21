@@ -1,9 +1,8 @@
 blueprint:
   name: Z2M - IKEA 5-button remote (Tradfri 1810)
   description:
-    This blueprint is for the IKEA round, 5-button remote when used with
-    Zigbee2MQTT. It is for genral use so all buttons can be connected to any action
-    of your choice.
+    This blueprint is for the IKEA round, 5-button remote when used with Zigbee2MQTT.
+    It is for general use so all buttons can be connected to any action of your choice.
     Based on https://community.home-assistant.io/t/zigbee2mqtt-ikea-5-button-remote-general-use/263885
     by finch.
   source_url: https://github.com/mihsu81/blueprints/blob/main/Z2M_IKEA_TRADFRI_1810.yaml
