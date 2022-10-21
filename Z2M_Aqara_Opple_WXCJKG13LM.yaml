@@ -2,8 +2,7 @@ blueprint:
   name: Z2M - Aqara Opple Wireless Scene Switch 6 Button (WXCJKG13LM)
   description:
     This blueprint is for the Aqara Opple Wireless Scene Switch 6 Button (WXCJKG13LM) when used with
-    ZigBee2MQTT. It is for genral use so all buttons can be connected to any action
-    of your choice.
+    ZigBee2MQTT. It is for general use so all buttons can be connected to any action of your choice.
     Based on https://community.home-assistant.io/t/zigbee2mqtt-aqara-opple-wxcjkg13lm-3-band-switch-all-custom-buttons/268640
     by mozartbanging.
   source_url: https://github.com/mihsu81/blueprints/blob/main/Z2M_Aqara_Opple_WXCJKG13LM.yaml
