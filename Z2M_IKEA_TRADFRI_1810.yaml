@@ -1,8 +1,11 @@
 blueprint:
   name: zigbee2mqtt IKEA 5-button remote
-  description: "This blueprint is for the IKEA round, 5-button remote when used with zigbee2mqtt.
-  It is for genral use so all buttons can be connected to any action of your choice.
-  Based on https://community.home-assistant.io/t/zigbee2mqtt-ikea-5-button-remote-general-use/263885 by finch."
+  description:
+    This blueprint is for the IKEA round, 5-button remote when used with
+    zigbee2mqtt. It is for genral use so all buttons can be connected to any action
+    of your choice. Based on https://community.home-assistant.io/t/zigbee2mqtt-ikea-5-button-remote-general-use/263885
+    by finch.
+  source_url: https://github.com/mihsu81/blueprints/blob/main/Z2M_IKEA_TRADFRI_1810.yaml
   domain: automation
   input:
     remote:
@@ -77,10 +80,27 @@ max_exceeded: silent
 trigger:
   - platform: state
     entity_id: !input "remote"
-    attribute: action
+    #  attribute: action
+    to:
+      - "toggle"
+      - "toggle_hold"
+      - "arrow_left_click"
+      - "arrow_left_hold"
+      - "arrow_right_click"
+      - "arrow_right_hold"
+      - "brightness_up_click"
+      - "brightness_up_hold"
+      - "brightness_down_click"
+      - "brightness_down_hold"
+
+variables:
+  command: "{{ trigger.to_state.state }}"
+
+condition:
+  - condition: template
+    value_template: "{{ command != ''}}"
+
 action:
-  - variables:
-      command: "{{ trigger.to_state.state }}"
   - choose:
       - conditions:
           - "{{ command == 'toggle' }}"
