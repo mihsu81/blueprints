@@ -1,9 +1,10 @@
 blueprint:
-  name: zigbee2mqtt IKEA 5-button remote
+  name: Z2M - IKEA 5-button remote (Tradfri 1810)
   description:
     This blueprint is for the IKEA round, 5-button remote when used with
-    zigbee2mqtt. It is for genral use so all buttons can be connected to any action
-    of your choice. Based on https://community.home-assistant.io/t/zigbee2mqtt-ikea-5-button-remote-general-use/263885
+    Zigbee2MQTT. It is for genral use so all buttons can be connected to any action
+    of your choice.
+    Based on https://community.home-assistant.io/t/zigbee2mqtt-ikea-5-button-remote-general-use/263885
     by finch.
   source_url: https://github.com/mihsu81/blueprints/blob/main/Z2M_IKEA_TRADFRI_1810.yaml
   domain: automation
@@ -75,8 +76,11 @@ blueprint:
       default: []
       selector:
         action: {}
+
 mode: restart
+
 max_exceeded: silent
+
 trigger:
   - platform: state
     entity_id: !input "remote"
