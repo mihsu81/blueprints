@@ -76,6 +76,30 @@ blueprint:
       default: []
       selector:
         action: {}
+    button_dots_1_short_release:
+      name: 1 Dot button - release after short press
+      description: Action to run when released after SHORT pressed on 1 Dot button
+      default: []
+      selector:
+        action: {}
+    button_dots_1_long_release:
+      name: 1 Dot button - release after long press
+      description: Action to run when released after LONG pressed on 1 Dot button
+      default: []
+      selector:
+        action: {}
+    button_dots_2_short_release:
+      name: 2 Dots button - release after short press
+      description: Action to run when released after SHORT pressed on 2 Dots button
+      default: []
+      selector:
+        action: {}
+    button_dots_2_long_release:
+      name: 2 Dots button - release after long press
+      description: Action to run when released after LONG pressed on 2 Dots button
+      default: []
+      selector:
+        action: {}
     button_dots_2_initial_press:
       name: 2 Dots button - short press
       description: Action to run when SHORT pressed on 2 Dots button
