@@ -1,0 +1,183 @@
+blueprint:
+  name: Z2M - IKEA 7-button remote (Symfonisk gen2 2123)
+  description:
+    This blueprint is for the IKEA round, 7-button remote when used with
+    Zigbee2MQTT. It is for genral use so all buttons can be connected to any action
+    of your choice.
+    Based on https://community.home-assistant.io/t/zigbee2mqtt-ikea-5-button-remote-general-use/263885
+    by finch.
+  source_url: https://github.com/mihsu81/blueprints/blob/main/Z2M_IKEA_SYMFONISK_G2_2123.yaml
+  domain: automation
+  input:
+    remote:
+      name: Remote
+      description: IKEA remote to use
+      selector:
+        entity:
+          integration: mqtt
+          domain: sensor
+    button_play_pause:
+      name: Play button
+      description: Action to run when pressed Play button
+      default: []
+      selector:
+        action: {}
+    button_track_previous:
+      name: Previous Track button
+      description: Action to run when pressed Previous Track button
+      default: []
+      selector:
+        action: {}
+    button_track_next:
+      name: Next Track button
+      description: Action to run when pressed Next Track button
+      default: []
+      selector:
+        action: {}
+    button_volume_up_short:
+      name: Volume Up button - short press
+      description: Action to run when SHORT pressed on Volume Up button
+      default: []
+      selector:
+        action: {}
+    button_volume_up_long:
+      name: Volume Up button - long press
+      description: Action to run when LONG pressed on Volume Up button
+      default: []
+      selector:
+        action: {}
+    button_volume_down_short:
+      name: Volume Down button - short press
+      description: Action to run when SHORT pressed on Volume Down button
+      default: []
+      selector:
+        action: {}
+    button_volume_down_long:
+      name: Volume Down button - long press
+      description: Action to run when LONG pressed on Volume Down button
+      default: []
+      selector:
+        action: {}
+    button_dots_1_initial_press:
+      name: 1 Dot button - short press
+      description: Action to run when SHORT pressed on 1 Dot button
+      default: []
+      selector:
+        action: {}
+    button_dots_1_long_press:
+      name: 1 Dot button - long press
+      description: Action to run when LONG pressed on 1 Dot button
+      default: []
+      selector:
+        action: {}
+    button_dots_1_double_press:
+      name: 1 Dot button - double press
+      description: Action to run when DOUBLE pressed on 1 Dot button
+      default: []
+      selector:
+        action: {}
+    button_dots_2_initial_press:
+      name: 2 Dots button - short press
+      description: Action to run when SHORT pressed on 2 Dots button
+      default: []
+      selector:
+        action: {}
+    button_dots_2_long_press:
+      name: 2 Dots button - long press
+      description: Action to run when LONG pressed on 2 Dots button
+      default: []
+      selector:
+        action: {}
+    button_dots_2_double_press:
+      name: 2 Dots button - double press
+      description: Action to run when DOUBLE pressed on 2 Dots button
+      default: []
+      selector:
+        action: {}
+
+mode: restart
+
+max_exceeded: silent
+
+trigger:
+  - platform: state
+    entity_id: !input "remote"
+    #  attribute: action
+    to:
+      - "play_pause"
+      - "track_previous"
+      - "track_next"
+      - "volume_up"
+      - "volume_down"
+      - "volume_up_hold"
+      - "volume_down_hold"
+      - "dots_1_initial_press"
+      - "dots_2_initial_press"
+      - "dots_1_long_press"
+      - "dots_2_long_press"
+      - "dots_1_short_release"
+      - "dots_2_short_release"
+      - "dots_1_long_release"
+      - "dots_2_long_release"
+      - "dots_1_double_press"
+      - "dots_2_double_press"
+variables:
+  command: "{{ trigger.to_state.state }}"
+
+condition:
+  - condition: template
+    value_template: "{{ command != ''}}"
+
+action:
+  - choose:
+      - conditions:
+          - "{{ command == 'play_pause' }}"
+        sequence: !input "button_play_pause"
+      - conditions:
+          - "{{ command == 'track_previous' }}"
+        sequence: !input "button_track_previous"
+      - conditions:
+          - "{{ command == 'track_next' }}"
+        sequence: !input "button_track_next"
+      - conditions:
+          - "{{ command == 'volume_up' }}"
+        sequence: !input "button_volume_up_short"
+      - conditions:
+          - "{{ command == 'volume_up_hold' }}"
+        sequence: !input "button_volume_up_long"
+      - conditions:
+          - "{{ command == 'volume_down' }}"
+        sequence: !input "button_volume_down_short"
+      - conditions:
+          - "{{ command == 'volume_down_hold' }}"
+        sequence: !input "button_volume_down_long"
+      - conditions:
+          - "{{ command == 'dots_1_initial_press' }}"
+        sequence: !input "button_dots_1_initial_press"
+      - conditions:
+          - "{{ command == 'dots_1_long_press' }}"
+        sequence: !input "button_dots_1_long_press"
+      - conditions:
+          - "{{ command == 'dots_1_double_press' }}"
+        sequence: !input "button_dots_1_double_press"
+      - conditions:
+          - "{{ command == 'dots_1_short_release' }}"
+        sequence: !input "button_dots_1_short_release"
+      - conditions:
+          - "{{ command == 'dots_1_long_release' }}"
+        sequence: !input "button_dots_1_long_release"
+      - conditions:
+          - "{{ command == 'dots_2_initial_press' }}"
+        sequence: !input "button_dots_2_initial_press"
+      - conditions:
+          - "{{ command == 'dots_2_long_press' }}"
+        sequence: !input "button_dots_2_long_press"
+      - conditions:
+          - "{{ command == 'dots_2_double_press' }}"
+        sequence: !input "button_dots_2_double_press"
+      - conditions:
+          - "{{ command == 'dots_2_short_release' }}"
+        sequence: !input "button_dots_2_short_release"
+      - conditions:
+          - "{{ command == 'dots_2_long_release' }}"
+        sequence: !input "button_dots_2_long_release"
