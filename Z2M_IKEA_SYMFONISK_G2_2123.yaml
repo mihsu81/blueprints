@@ -128,7 +128,7 @@ trigger:
     entity_id: !input "remote"
     #  attribute: action
     to:
-      - "play_pause"
+      - "toggle"
       - "track_previous"
       - "track_next"
       - "volume_up"
@@ -155,7 +155,7 @@ condition:
 action:
   - choose:
       - conditions:
-          - "{{ command == 'play_pause' }}"
+          - "{{ command == 'toggle' }}"
         sequence: !input "button_play_pause"
       - conditions:
           - "{{ command == 'track_previous' }}"
