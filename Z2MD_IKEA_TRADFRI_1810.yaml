@@ -1,0 +1,194 @@
+blueprint:
+  name: Z2MD - IKEA 5-button remote (Tradfri 1810)
+  description:
+    This blueprint is for the IKEA round, 5-button remote when used with
+    Zigbee2MQTT. It is for genral use so all buttons can be connected to any action
+    of your choice.
+    Based on https://community.home-assistant.io/t/zigbee2mqtt-ikea-5-button-remote-general-use/263885
+    by finch.
+  source_url: https://github.com/mihsu81/blueprints/blob/main/Z2MD_IKEA_TRADFRI_1810.yaml
+  domain: automation
+  input:
+    remote:
+      name: Remote
+      description: IKEA remote to use
+      selector:
+        device:
+          integration: mqtt
+          manufacturer: IKEA
+          multiple: false
+    button_on_off_short:
+      name: On off button - short press
+      description: Action to run when SHORT press on/off-button
+      default: []
+      selector:
+        action: {}
+    button_on_off_long:
+      name: On off button - long press
+      description: Action to run when LONG press on/off-button
+      default: []
+      selector:
+        action: {}
+    button_brightness_up_short:
+      name: Brightness up button - short press
+      description: Action to run when SHORT press on brighness UP button
+      default: []
+      selector:
+        action: {}
+    button_brightness_up_long:
+      name: Brightness up button - long press
+      description: Action to run when LONG press on brightness UP button
+      default: []
+      selector:
+        action: {}
+    button_brightness_down_short:
+      name: Brightness down button - short press
+      description: Action to run when SHORT press on brighness DOWN button
+      default: []
+      selector:
+        action: {}
+    button_brightness_down_long:
+      name: Brightness down button - long press
+      description: Action to run when LONG press on brighness DOWN button
+      default: []
+      selector:
+        action: {}
+    button_left_short:
+      name: Left button - short press
+      description: Action to run when SHORT press on LEFT button
+      default: []
+      selector:
+        action: {}
+    button_left_long:
+      name: Left button - long press
+      description: Action to run when LONG press on LEFT button
+      default: []
+      selector:
+        action: {}
+    button_right_short:
+      name: Right button - short press
+      description: Action to run when SHORT press on RIGHT button
+      default: []
+      selector:
+        action: {}
+    button_right_long:
+      name: Right button - long press
+      description: Action to run when LONG press on RIGHT button
+      default: []
+      selector:
+        action: {}
+
+mode: restart
+
+max_exceeded: silent
+
+trigger:
+- domain: mqtt
+  device_id: !input remote
+  type: action
+  subtype: toggle
+  trigger: device
+- domain: mqtt
+  device_id: !input remote
+  type: action
+  subtype: brightness_down_hold
+  trigger: device
+- domain: mqtt
+  device_id: !input remote
+  type: action
+  subtype: brightness_down_release
+  trigger: device
+- domain: mqtt
+  device_id: !input remote
+  type: action
+  subtype: brightness_down_click
+  trigger: device
+- domain: mqtt
+  device_id: !input remote
+  type: action
+  subtype: arrow_left_hold
+  trigger: device
+- domain: mqtt
+  device_id: !input remote
+  type: action
+  subtype: arrow_left_release
+  trigger: device
+- domain: mqtt
+  device_id: !input remote
+  type: action
+  subtype: arrow_left_click
+  trigger: device
+- domain: mqtt
+  device_id: !input remote
+  type: action
+  subtype: toggle_hold
+  trigger: device
+- domain: mqtt
+  device_id: !input remote
+  type: action
+  subtype: brightness_up_hold
+  trigger: device
+- domain: mqtt
+  device_id: !input remote
+  type: action
+  subtype: brightness_up_release
+  trigger: device
+- domain: mqtt
+  device_id: !input remote
+  type: action
+  subtype: brightness_up_click
+  trigger: device
+- domain: mqtt
+  device_id: !input remote
+  type: action
+  subtype: arrow_right_click
+  trigger: device
+- domain: mqtt
+  device_id: !input remote
+  type: action
+  subtype: arrow_right_hold
+  trigger: device
+- domain: mqtt
+  device_id: !input remote
+  type: action
+  subtype: arrow_right_release
+  trigger: device
+
+condition:
+  - condition: template
+    value_template: "{{ command != ''}}"
+
+action:
+- variables:
+    command: '{{ trigger.payload }}'
+- choose:
+  - conditions:
+      - "{{ command == 'toggle' }}"
+    sequence: !input "button_on_off_short"
+  - conditions:
+      - "{{ command == 'toggle_hold' }}"
+    sequence: !input "button_on_off_long"
+  - conditions:
+      - "{{ command == 'brightness_up_click' }}"
+    sequence: !input "button_brightness_up_short"
+  - conditions:
+      - "{{ command == 'brightness_up_hold' }}"
+    sequence: !input "button_brightness_up_long"
+  - conditions:
+      - "{{ command == 'brightness_down_click' }}"
+    sequence: !input "button_brightness_down_short"
+  - conditions:
+      - "{{ command == 'brightness_down_hold' }}"
+    sequence: !input "button_brightness_down_long"
+  - conditions:
+      - "{{ command == 'arrow_left_click' }}"
+    sequence: !input "button_left_short"
+  - conditions:
+      - "{{ command == 'arrow_left_hold' }}"
+    sequence: !input "button_left_long"
+  - conditions:
+      - "{{ command == 'arrow_right_click' }}"
+    sequence: !input "button_right_short"
+  - conditions:
+      - "{{ command == 'arrow_right_hold' }}"
+    sequence: !input "button_right_long"
